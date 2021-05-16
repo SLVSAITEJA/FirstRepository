@@ -1,1 +1,1 @@
-First text file for Git demo
+First text file created for Git demo
