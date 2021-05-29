@@ -61,3 +61,283 @@ rmdir dir-name - Will remove the directory dir-name, if it's empty. This command
 mkdir dir-name - Create a directory dir-name 
 mkdir -p dir-name/dir-name - Create a directory hierarchy. Create parent directories as needed, if they don't
 exist. You can specify multiple directories.
+
+
+Linux Series part 2: File & Folder Permission Management:
+
+To see file list, their crrent permission level and much more, you can run:
+ls -la -lh -lt  
+(To know more on ls commands check tutorial: https://www.youtube.com/watch?v=h6sDtGN5hYs)
+
+chmod <specification> filename : Change the file permissions. Specifications = u user/owner, g group, o other, + add permission, - remove, r read, w write,x execute.
+
+chmod -R <specification> dir-name: Change the permissions of a directory recursively. To change permission of a directory and everything within that directory, use this command.
+
+chmod go=+r myfile - Add read permission for the owner and the group 
+
+chmod a+rwx myfile Allow all users to read, write or execute myfile.
+
+chmod go-r myfile - Remove read permission from the group and others. 
+
+
+You Can do it in Numerical way as well:
+
+chmod 777 sample_file.txt
+Where it means: Everybody can read, write to, or execute sample_file.txt
+Each digit of this code sets permissions for one of these groups as follows. Read is 4. Write is 2. Execute is 1.
+The sums of these numbers give combinations of these permissions:
+
+0 = no permissions whatsoever; this person cannot read, write, or execute the file
+1 = execute only
+2 = write only
+3 = write and execute (1+2)
+4 = read only
+5 = read and execute (4+1)
+6 = read and write (4+2)
+7 = read and write and execute (4+2+1)
+
+Sample combination:
+Command	            Meaning
+chmod 700 sample_file.txt	Only you can read, write to, or execute sample_file.txt
+chmod 777 sample_file.txt	Everybody can read, write to, or execute sample_file.txt
+chmod 744 sample_file.txt	Only you can read, write to, or execute sample_file.txt Everybody can read sample_file.txt;
+chmod 444 sample_file.txt	You can only read sample_file.txt, as everyone else.
+
+let's break it into more simple words:
+e.g. we have a test file as test.txt and we want write access to owner of file only, so now:
+Owner rwx = 4+2+1 = 7
+Group r-x = 4+0+1 = 5
+Other r-x = 4+0+1 = 5
+So the entire command will be:
+chmod 755 test
+
+Other uses & Commands:
+
+chmod owner1 filename - Change ownership of a file to user owner1. 
+
+chgrp grp_owner filename - Change primary group ownership of file filename to group grp_owner. 
+
+chgrp -R grp_owner dir-name - Change primary group ownership of directory dir-name to group grp_owner recursively. To change group ownership of a directory and everything within that directory, use this command.
+
+
+Note: If you want to try above commands without any risk, use Docker, so install docker and use below docker commands to run a Linux cotainer and use the shell, e.g. as in tutorial I have shown:
+docker run -it ubuntu:16.04 /bin/bash 
+But you can use any linux OS , it's your choice. Docker Tutorial Link: https://www.youtube.com/watch?v=Y56FMHC1mb8
+
+
+
+Basic Linux Utilities:
+
+man <name> - Read the manual page of <name>
+
+man <section> <name> - Read the manual page of <name>, related to the given section. 
+
+man -k <editor> - Output all the software whose man pages contain <editor> keyword.
+
+man -K <keyword> - Outputs all man pages containing <keyword> within them.
+
+apropos <editor> - Output all the applications whose one line description matches the word editor. When not able to recall the name of the application, use this command.
+
+help - In Bash shell, this will display the list of all available bash commands.
+
+help <name> - In Bash shell, this will display the list of all available bash commands. 
+
+info <name> - View all the information about <name>.
+
+dpkg -l - Output a list of all installed packages on a Debian-based system.
+
+dpkg -L packageName - Will list out the files installed and path details for a given package on Debian.
+
+dpkg -l | grep -i <edit> - Return all .deb installed packages with <edit> irrespective of cases.
+
+less /var/lib/dpkg/available - Return descriptions of all available packages.
+
+whatis vim - List a one-line description of vim.
+
+<command-name> --help - Display usage information about the <tool-name>. Sometimes command       -h also works, but not for all commands.
+
+User identification and who is who in Linux world:
+
+hostname  - Display hostname of the system.
+hostname -f - Displays Fully Qualified Domain Name (FQDN) of the system.
+passwd - Change password of current user.
+whoami - Username of the users logged in at the terminal.
+who - List of all the users currently logged in as a user.
+w - Display current system status, time, duration, list of users currently logged in on system and other user information.
+last - Who recently used the system.
+last root - When was the last time root logged in as user.
+lastb - Shows all bad login attempts into the system.
+
+Process related information:
+top - List all processes sorted by their current system resource usage. Displays a continually updated display of processes (By default 3 seconds). Use q key to exit top.
+ps - List processes currently running on current shell session
+ps -u root - List all of the processes and commands root is running
+ps aux - List all the processes by all users on the current system
+
+Detecting Linux distribution name and version:
+On Debian:
+lsb_release -a
+
+On Ubuntu:
+lsb_release -a
+
+If lsb_release not installed then try: 
+cat /etc/issue
+
+Detect what systemd-based distribution os have run:
+cat /etc/os-release
+(for red-hat run: cat /etc/redhat-release)
+
+Print information about the current system:
+uname [OPTION]
+e.g. -a or --all - Prints all information, omitting -p and -i if the information is unknown.
+run: 
+uname -a
+All The options:
+-s, --kernel-name - Print the kernel name.
+-n, --nodename - Print the network node hostname.
+-r, --kernel-release - Print the kernel release.
+-v, --kernel-version - Print the kernel version.
+-m, --machine - Print the machine hardware name.
+-p, --processor - Print the processor type, or "unknown".
+-i, --hardware-platform - Print the hardware platform, or "unknown".
+-o, --operating-system - Print the operating system.
+--help - Display a help message, and exit.
+--version - Display version information, and exit.
+
+Find your linux os (both debian & rpm) name and release number:
+cat /etc/*release
+
+
+
+
+Note: If you want to try above commands without any risk, use Docker, so install docker and use below docker commands to run a Linux cotainer and use the shell, e.g. as in tutorial I have shown:
+docker run -it ubuntu:16.04 /bin/bash 
+But you can use any linux OS , it's your choice. Docker Tutorial Link: https://www.youtube.com/watch?v=Y56FMHC1mb8
+
+
+
+
+Basic Linux Shell Scripting:
+
+What is Shell?
+The shell executes a program in response to its prompt. When you give a command, the shell searches for the program, and then executes it. For example, when you give the command ls, the shell searches for the utility/program named ls, and then runs it in the shell. The arguments and the options that you provide with the utilities can impact the result that you get. The shell is also known as a CLI, or command line interface.
+
+Types of shells:
+Primaryly there is two types of shell:
+Bourne shell − If you are using a Bourne-type shell, the $ character is the default prompt. 
+It has sub categories: Bourne shell (sh), Korn shell (ksh), Bourne Again shell (bash), POSIX shell (sh)
+
+C shell − If you are using a C-type shell, the % character is the default prompt. 
+Subcategories: C shell (csh), TENEX/TOPS C shell (tcsh)
+
+Out of which below are widely used:
+BASH (Bourne Again SHell) – It is most widely used shell in Linux systems. It is used as default login shell in Linux systems and in macOS. It can also be installed on Windows OS.
+CSH (C SHell) – The C shell’s syntax and usage are very similar to the C programming language.
+KSH (Korn SHell) – The Korn Shell also was the base for the POSIX Shell standard specifications etc.
+
+To check which shell you are using run below command:
+echo $SHELL
+
+What is Shell Scripting? 
+I liked this defination: "A shell script is a text file that contains a sequence of commands for a UNIX-based operating system. It's called a shell script because it combines into a "script" in a single file a sequence of commands that would otherwise have to be presented to the system from a keyboard one at a time."
+
+To make the script file executeable, use below command:
+chmod +x file_path
+e.g. chmod +x hellow_world.sh
+
+Let's get started with our first sheel script:
+filename: hellow_world.sh 
+
+Dile Contents:
+#!/bin/bash  
+echo "Hello World"  
+
+One important thing we must know here:
+Shell Scripting She-bang:
+The sign #! is called she-bang and is written at top of the script. It passes instruction to program /bin/sh.
+
+To run your script in a certain shell (shell should be supported by your system), start your script with #! followed by the shell name.
+Example:
+#!/bin/bash  
+echo Hello World  
+#!/bin/ksh  
+echo Hello World  
+
+Using Variable in Shell Scripting:
+File name: test.sh
+Contents:
+#!/bin/bash  
+NAME="Sandip"
+echo $NAME
+echo "$NAME"
+echo "${NAME}!"
+
+
+Writing interactive shell script:
+
+filename: test_2.sh 
+
+Contents: 
+#! /bin/bash
+echo "Your First Name?";
+read a;
+echo "Hi $a, Your Last Name";
+read b;
+echo "Thanks $a, Your full name is $a $b for telling us your name";
+
+
+What next: 
+string manipulation, funtions, for loop, conditional statements (e.g. if else), arrays, iterations and more 
+
+
+
+Funtions: 
+
+Writing Functions:
+
+Normal function:
+get_name() {
+  echo "John"
+}
+echo "You are $(get_name)"
+
+
+Function that accepts parameters and process it:
+argunets and their meaning
+$#	Number of arguments
+$*	All arguments
+$@	All arguments, starting from first
+$1	First argument
+
+myfunc() {
+    echo "hello $1"
+}
+# Same as above (alternate syntax)
+function myfunc() {
+    echo "hello $1"
+}
+myfunc "Sandip"
+
+
+Function returning values:
+myfunc() {
+    local myresult='some value'
+    echo $myresult
+}
+result="$(myfunc)"
+
+Raising errors:
+myfunc() {
+  return 1
+}
+if myfunc; then
+  echo "success"
+else
+  echo "failure"
+fi
+
+
+What next?
+Next I will cover loops in shell scripting
+
